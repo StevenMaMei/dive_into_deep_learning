@@ -87,9 +87,56 @@ If we have more than two possible classes we call the problem \textbf{multiclass
 The common loss function for classification problems is called \textbf{cross-entropy}.
 
 \eparagraph{Tagging}
+\textbf{Multi-label classification} refers to a problem of predicting classes that
+are not mutually exclusive. For instance, an image with a dog, cat, donkey, etc.
 
+\eparagraph{ Search}
+You can use machine-learning models to assign query-dependent scores for pages.
 
+\eparagraph{Recommender Systems}
+Recommending something based on implicit user behavior.
 
+\eparagraph{Sequence Learning}
+Are models that ingest sequences of inputs or emit sequences of outputs (or both).
+Examples of these cases are:
+
+\begin{itemize}
+    \item Automatic Speech Recognition
+    \item Text to Speech
+    \item Machine translation: Translate from two languages that organize the words
+          differently
+\end{itemize}
+
+\subsubsection{Unsupervised and Self-Supervised Learning}
+\begin{itemize}
+    \item Clustering
+    \item SubSpace estimation: Find a small number of parameters that capture the
+          relevant properties of the data
+          \begin{itemize}
+              \item Principal Component analysis: when the dependence is linear
+          \end{itemize}
+    \item Causality and probabilistic graphical models: how the features are related?
+    \item Generative models
+\end{itemize}
+
+\subsubsection{Interacting with an Environment}
+The environment can change and we want the models to be able to react based on
+the new input. This problem is called \textbf{distribution shift}. Reinforcement
+learning is tailored to these situations.
+
+\subsubsection{Reinforcement Learning}
+Reinforcement learning focuses on an agent that interacts with an environment and
+takes actions
+
+\setcounter{subsection}{6}
+\subsection{The Essence of Deep Learning}
+Deep learning is a subset of machine learning methods and is based on many-layered
+neural networks.
+
+Deep learning has replaced feature engineering and domain-specific preprocessing
+
+\section{Preliminaries}
+\subsection{Data Manipulation}
 
 % \includegraphics[width=0.5\textwidth]{images/2024-03-16-11-53-15.png}
 % \setcounter{subsection}{3}
