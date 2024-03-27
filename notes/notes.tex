@@ -8,6 +8,8 @@
     urlcolor=black
 }
 \usepackage{graphicx}
+\usepackage{amssymb} % Math symbols
+\usepackage{amsmath}
 \usepackage[parfill]{parskip} % New lines between paragraphs and no identation
 \setcounter{secnumdepth}{4} 
 \setcounter{tocdepth}{4}
@@ -140,8 +142,200 @@ Deep learning has replaced feature engineering and domain-specific preprocessing
 It is a hands-on section. Also, go to the Jupyter notebook
 
 When a tensor has only one axis, it is called a vector. With two axes it is called
-a mtrix. For more axes, we refer to a $k^{th}$-order tensor
+a matrix. For more axes, we refer to a $k^{th}$-order tensor
+
+\subsection{Data preprocessing}
+
+Missing values can be handled by imputation or deletion. Imputation is when you
+replace the missing values with estimates. Deletion discards the rows or columns
+that contain missing values.
+
+\subsection{Linear Algebra}
+
+If \textbf{A} is symmetric, then $\textbf{A}^T$ = \textbf{A}
+
+The element-wise product of two matrices is called their Hadamard product $\odot$
+
+Given two normalized vectors with unit length, the dot product between them is
+the cosine of the angle between them.
+
+\setcounter{subsection}{3}
+\setcounter{subsubsection}{12}
+\subsubsection{Norms}
+The norm tells us how big it is.
+The $\ell_2$ norm measures the (Euclidean) length of a vector
+
+A norm is a function $\| \cdot \|$ that produces a scalar and satisfies the following
+properties:
+\begin{enumerate}
+    \item given any vector $\mathbf{x}$, if we scale (all elements of) the vector by
+          a scalar $\alpha \in \mathbb{R}$, its norm scales accordingly
+          \begin{equation}
+              \|\alpha \mathbf{x}\| = |\alpha| \|\mathbf{x}\|.   \tag{2.3.10}
+          \end{equation}
+    \item For any vectors $\mathbf{x}$ and $\mathbf{y}$: normals satisfy the triangle
+          inequality:
+          \begin{equation}
+              \|\mathbf{x} + \mathbf{y}\| \leq \|\mathbf{x}\| + \|\mathbf{y}\|. \tag{2.3.11}
+          \end{equation}
+    \item The norm of a vector is nonnegative and it only vanishes if the vector
+          is zero:
+          \begin{equation}
+              \|\mathbf{x}\| > 0 \textrm{ for all } \mathbf{x} \neq 0. \tag{2.3.12}
+          \end{equation}
+\end{enumerate}
+
+the $\ell_2$ norm is formally expressed as:
+\begin{equation}
+    \|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^n x_i^2}. \tag{2.3.13}
+\end{equation}
+
+The $\ell_1$ norm (also called Manhattan distance) is:
+\begin{equation}
+    \|\mathbf{x}\|_1 = \sum_{i=1}^n \left|x_i \right|. \tag{2.3.14}
+\end{equation}
+
+The $\ell_p$ form is:
+\begin{equation}
+    \|\mathbf{x}\|_p = \left(\sum_{i=1}^n \left|x_i \right|^p \right)^{1/p}. \tag{2.3.15}
+\end{equation}
+
+The Frobenius norm behaves like an $\ell_2$ norm of a matrix-shaped vector. It is
+defined as:
+\begin{equation}
+    \|\mathbf{X}\|_\textrm{F} = \sqrt{\sum_{i=1}^m \sum_{j=1}^n x_{ij}^2}. \tag{2.3.16}
+\end{equation}
+
+Because in deep learning we often optimize some measurements, like the distance
+between predictions and the ground truth observations, norms can help us in
+representing those distances.
+
+\subsection{Calculus}
+
+\subsubsection{Derivatives and Differentiation}
+For a function $f: \mathbb{R} \rightarrow \mathbb{R}$ the derivative of $f$ at
+a point $x$ is
+
+\begin{equation}
+    f'(x) = \lim_{h \rightarrow 0} \frac{f(x+h) - f(x)}{h}. \tag{2.4.1}
+\end{equation}
+
+if $f'(x)$ exists, $f$ is said to be differentiable at $x$
+
+$f'(x)$ can be interpreted as the instantaneous rate of change of $f(x)$ with respect
+to $x$
+
+The derivative also has the following equivalent expressions:
+\begin{equation}
+    f'(x) = y' = \frac{dy}{dx} = \frac{df}{dx} = \frac{d}{dx} f(x) = Df(x) = D_x f(x) \tag{2.4.2}
+\end{equation}
+
+Some common derivatives are:
+
+\begin{equation}
+    \begin{split}\begin{aligned}
+            \frac{d}{dx} C & = 0 &  & \textrm{for any constant $C$}
+            \\ \frac{d}{dx} x^n & = n x^{n-1} && \textrm{for } n \neq 0
+            \\ \frac{d}{dx} e^x & = e^x
+            \\ \frac{d}{dx} \ln x & = x^{-1}.
+        \end{aligned}\end{split}
+    \tag{2.4.3}
+\end{equation}
+
+given differentiable functions $f$ and $g$, and a constant $C$
+
+\begin{equation}
+    \begin{split}\begin{aligned} \frac{d}{dx} [C f(x)] & = C \frac{d}{dx} f(x) && \textrm{Constant multiple rule} \\ \frac{d}{dx} [f(x) + g(x)] & = \frac{d}{dx} f(x) + \frac{d}{dx} g(x) && \textrm{Sum rule} \\ \frac{d}{dx} [f(x) g(x)] & = f(x) \frac{d}{dx} g(x) + g(x) \frac{d}{dx} f(x) && \textrm{Product rule} \\ \frac{d}{dx} \frac{f(x)}{g(x)} & = \frac{g(x) \frac{d}{dx} f(x) - f(x) \frac{d}{dx} g(x)}{g^2(x)} && \textrm{Quotient rule} \end{aligned}\end{split}
+    \tag{2.4.4}
+\end{equation}
+
+The derivatives tell us the slope of the line that touches a particular location
+
+\setcounter{subsubsection}{2}
+
+\subsubsection{Partial Derivatives and Gradients}
+
+Given the function with n variables $y = f(x_1, x_2, \ldots, x_n)$, the partial
+derivative of $y$ with respect to its $i^{th}$ parameter $x_i$ is:
+\begin{equation}
+    \frac{\partial y}{\partial x_i} = \lim_{h \rightarrow 0} \frac{f(x_1, \ldots, x_{i-1}, x_i+h, x_{i+1}, \ldots, x_n) - f(x_1, \ldots, x_i, \ldots, x_n)}{h}.
+    \tag{2.4.6}
+\end{equation}
+We treat all the other parameters as constants. The following are alternative notations:
+\begin{equation}
+    \frac{\partial y}{\partial x_i} = \frac{\partial f}{\partial x_i} = \partial_{x_i} f = \partial_i f = f_{x_i} = f_i = D_i f = D_{x_i} f.
+    \tag{2.4.7}
+\end{equation}
+
+If we concatenate the partial derivates of a multivariate function with respect to all
+its variables we obtain a vector called the gradient of the function.
+
+Given the input of a function $f: \mathbb{R}^n \rightarrow \mathbb{R}$ is a vector
+$\mathbf{x} = [x_1, x_2, \ldots, x_n]^\top$. The gradient of the function $f$ with
+respect to $\mathbf{x}$ is:
+\begin{equation}
+    \nabla_{\mathbf{x}} f(\mathbf{x}) = \left[\partial_{x_1} f(\mathbf{x}), \partial_{x_2} f(\mathbf{x}), \ldots
+        \partial_{x_n} f(\mathbf{x})\right]^\top. \tag{2.4.8}
+\end{equation}
+
+Useful rules to differentiate multivariate functions:
+\begin{enumerate}
+    \item For all $\mathbf{A} \in \mathbb{R}^{m \times n}$ we have
+          $\nabla_{\mathbf{x}} \mathbf{A} \mathbf{x} = \mathbf{A}^\top$ and
+          $\nabla_{\mathbf{x}} \mathbf{x}^\top \mathbf{A} = \mathbf{A}$
+    \item For square matrices $\mathbf{A} \in \mathbb{R}^{n \times n}$ we have
+          $\nabla_{\mathbf{x}} \mathbf{x}^\top \mathbf{A} \mathbf{x} = (\mathbf{A} + \mathbf{A}^\top)\mathbf{x}$
+          and $\nabla_{\mathbf{x}} \|\mathbf{x} \|^2 = \nabla_{\mathbf{x}} \mathbf{x}^\top \mathbf{x} = 2\mathbf{x}$
+    \item for any matrix $\mathbf{X}$, we have $\nabla_{\mathbf{X}} \|\mathbf{X} \|_\textrm{F}^2 = 2\mathbf{X}$
+\end{enumerate}
+
+\subsubsection{Chain Rule}
+Suppose you have $y = f(g(x))$, and both functions are differentiable, then:
+\begin{equation}
+    \frac{dy}{dx} = \frac{dy}{du} \frac{du}{dx}. \tag{2.4.9}
+\end{equation}
+
+For a multivariate function $y = f(\mathbf{u})$ with variables $u_1, u_2, \ldots, u_m$,
+where each $u_i = g_i(\mathbf{x})$ has variables $x_1, x_2, \ldots, x_n$, i.e.,
+$\mathbf{u} = g(\mathbf{x})$, then
+\begin{equation}
+    \frac{\partial y}{\partial x_{i}} = \frac{\partial y}{\partial u_{1}} \frac{\partial u_{1}}{\partial x_{i}} + \frac{\partial y}{\partial u_{2}} \frac{\partial u_{2}}{\partial x_{i}} + \ldots + \frac{\partial y}{\partial u_{m}} \frac{\partial u_{m}}{\partial x_{i}} \ \textrm{ and so } \ \nabla_{\mathbf{x}} y =  \mathbf{A} \nabla_{\mathbf{u}} y,
+    \tag{2.4.10}
+\end{equation}
+$\mathbf{A} \in \mathbb{R}^{n \times m}$ is a matrix that contains the derivative of
+vector $\mathbf{u}$ with respect to vector $\mathbf{x}$
+
+Note: the matrix is $n \times m$ because $g$ produces a vector $\mathbf{u}$ with
+$m$ variables. Also, $g$ receives a vector $\mathbf{x}$ with $n$ variables. So,
+you have to do $\frac{\partial \mathbf{u}}{\partial x_i}$
+
+\subsection{Automatic Differentiation}
+
+The gradient of a scalar-valued function with respect to a vector $\mathbf{x}$ is
+a vector-valued with the same shape as $\mathbf{x}$
+
+If the function yields a vector, the gradient of the function with respect to a
+vector $\mathbf{x}$ is a matrix called the Jacobian. It contains the partial derivatives
+of each Component of y with respect to each component of x. Most of the times we don't
+need the Jacobian, but just sum up the gradients of each component of y to obtain
+a vector of the same shape as x.
+
+\section{Linear Neural Networks for Regression}
+
+\subsection{Linear Regression}
+\setcounter{subsubsection}{2}
+\subsubsection{The Normal Distribution and Squared Loss}
+
+The normal distribution is defined as:
+\begin{equation}
+    p(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{1}{2 \sigma^2} (x - \mu)^2\right).
+    \tag{3.1.12}
+\end{equation}
+where $\mu$ is the mean and $\sigma^2$ is the variance
+
+Changing the mean shifts the distribution along the $x$-axis, and increasing the
+variance spreads the distribution out, lowering the peak.
+
 % \includegraphics[width=0.5\textwidth]{images/2024-03-16-11-53-15.png}
 % \setcounter{subsection}{3}
-
 \end{document}
