@@ -336,6 +336,21 @@ where $\mu$ is the mean and $\sigma^2$ is the variance
 Changing the mean shifts the distribution along the $x$-axis, and increasing the
 variance spreads the distribution out, lowering the peak.
 
+\setcounter{subsection}{3}
+\subsection{Linear Regression Implementation from Scratch}
+\setcounter{subsubsection}{3}
+\subsubsection{Training}
+The training loop can be summarized as:
+\begin{enumerate}
+    \item Initialize parameters $(\mathbf{w},b)$
+    \item Repeat until done
+    \begin{itemize}
+        \item Compute gradient $\mathbf{g} \leftarrow \partial_{(\mathbf{w},b)} \frac{1}{|\mathcal{B}|} \sum_{i \in \mathcal{B}} l(\mathbf{x}^{(i)}, y^{(i)}, \mathbf{w}, b)$
+        \item Update parameters $(\mathbf{w}, b) \leftarrow (\mathbf{w}, b) - \eta \mathbf{g}$
+    \end{itemize}
+\end{enumerate}
+
+
 % \includegraphics[width=0.5\textwidth]{images/2024-03-16-11-53-15.png}
 % \setcounter{subsection}{3}
 \end{document}
